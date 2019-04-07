@@ -2,50 +2,77 @@ package com.thoughtworks.collection;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Add {
     public int getSumOfEvens(int leftBorder, int rightBorder) {
-        throw new NotImplementedException();
+        int smallBorder = leftBorder > rightBorder ? rightBorder : leftBorder;
+        int bigBorder = leftBorder > rightBorder ? leftBorder : rightBorder;
+        return IntStream.rangeClosed(smallBorder, bigBorder).filter(i -> i % 2 == 0).sum();
     }
 
     public int getSumOfOdds(int leftBorder, int rightBorder) {
-        throw new NotImplementedException();
+        int smallBorder = leftBorder > rightBorder ? rightBorder : leftBorder;
+        int bigBorder = leftBorder > rightBorder ? leftBorder : rightBorder;
+        return IntStream.rangeClosed(smallBorder, bigBorder).filter(i -> i % 2 == 1).sum();
     }
 
     public int getSumTripleAndAddTwo(List<Integer> arrayList) {
-        throw new NotImplementedException();
+        return arrayList.stream().mapToInt(i -> i * 3 + 2).sum();
     }
 
     public List<Integer> getTripleOfOddAndAddTwo(List<Integer> arrayList) {
-        throw new NotImplementedException();
+        return arrayList.stream().map(this::processTripleOfOddAndAddTwo).collect(Collectors.toList());
+    }
+
+    public int processTripleOfOddAndAddTwo(int i) {
+        if (i % 2 == 0) {
+            return i;
+        }
+        return i * 3 + 2;
     }
 
     public int getSumOfProcessedOdds(List<Integer> arrayList) {
-        throw new NotImplementedException();
+        return arrayList.stream().filter(i -> i % 2 == 1).mapToInt(i -> i * 3 + 5).sum();
     }
 
     public double getMedianOfEven(List<Integer> arrayList) {
-        throw new NotImplementedException();
+        List<Integer> list = arrayList.stream().filter(i -> i % 2 == 0).sorted().collect(Collectors.toList());
+        if(list.size() % 2 == 0){
+            return (list.get(list.size() / 2 - 1) + list.get(list.size() / 2)) / 2.0;
+        }
+        return  list.get(list.size() / 2);
     }
 
     public double getAverageOfEven(List<Integer> arrayList) {
-        throw new NotImplementedException();
+        return arrayList.stream().filter(i -> i % 2 == 0).mapToDouble(Integer::doubleValue).average().getAsDouble();
     }
 
     public boolean isIncludedInEvenIndex(List<Integer> arrayList, Integer specialElment) {
-        throw new NotImplementedException();
+        List<Integer> list = arrayList.stream().filter(i -> i % 2 == 0).collect(Collectors.toList());
+        return list.contains(specialElment);
     }
 
     public List<Integer> getUnrepeatedFromEvenIndex(List<Integer> arrayList) {
-        throw new NotImplementedException();
+        return arrayList.stream().filter(i -> i % 2 == 0).distinct().collect(Collectors.toList());
     }
 
     public List<Integer> sortByEvenAndOdd(List<Integer> arrayList) {
-        throw new NotImplementedException();
+        List<Integer> evenList = arrayList.stream().filter(i -> i % 2 == 0).sorted().collect(Collectors.toList());
+        List<Integer> oddList = arrayList.stream().filter(i -> i % 2 == 1).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        evenList.addAll(oddList);
+        return evenList;
     }
 
     public List<Integer> getProcessedList(List<Integer> arrayList) {
-        throw new NotImplementedException();
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < arrayList.size() - 1; i++) {
+            result.add((arrayList.get(i) + arrayList.get(i + 1)) * 3);
+        }
+        return result;
     }
 }
